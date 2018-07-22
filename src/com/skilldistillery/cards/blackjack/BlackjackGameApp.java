@@ -40,16 +40,36 @@ public class BlackjackGameApp {
 
 	public void playerTurn() {
 		Scanner sc = new Scanner(System.in);
+		String playerMove;
+//		String playAgain = null;
 		initialHands();
-		blackjack();
-//		if (playerHand.getHandValue() != 21) {
+		// need to implement a blackjack method in case player gets 21 on the first
+		// hand.
+		if (playerHand.getHandValue() == 21) {
+			System.out.println("You have a BLACKJACK!\nWould you like to play another hand?");
+			return;
+		}
+//		while(playAgain.equalsIgnoreCase("Quit") || playAgain.equalsIgnoreCase("Exit")){
+		while (playerHand.getHandValue() < 21) {
+
 			System.out.println("\nWould you like to Hit or Stay?");
-			String playerMove = sc.nextLine();
+			playerMove = sc.nextLine();
 			if (playerMove.equalsIgnoreCase("Hit")) {
 				playerHand.addCard(deck.dealCard());
 				System.out.print("\n" + playerHand);
 				System.out.print(playerHand.getHandValue());
-			} else if (playerMove.equalsIgnoreCase("Stay")) {
+			}
+			if (playerHand.getHandValue() <= 21) {
+				System.out.println("\nWould you like to Hit or Stay?");
+				playerMove = sc.nextLine();
+				playerHand.addCard(deck.dealCard());
+				System.out.println("\n" + playerHand);
+				System.out.print(playerHand.getHandValue());
+			} else if (playerHand.getHandValue() > 21) {
+				System.out.println("\nYou have busted!");
+				return;
+			}
+			if (playerMove.equalsIgnoreCase("Stay")) {
 				System.out.println(dealerHand);
 				System.out.println(dealerHand.getHandValue());
 				if (dealerHand.getHandValue() < 17) {
@@ -58,23 +78,23 @@ public class BlackjackGameApp {
 					System.out.print(dealerHand.getHandValue());
 				}
 			}
-			if (playerHand.getHandValue() <= 21) {
-				System.out.println("\nWould you like to Hit or Stay?");
-				playerMove = sc.nextLine();
-				playerHand.addCard(deck.dealCard());
-				System.out.println("\n" + playerHand);
-				System.out.print(playerHand.getHandValue());
-
-			}
-
 		}
-
-//	}
-	public void blackjack() {
-		while (playerHand.getHandValue() == 21 ) {
-			System.out.println("You have a BLACKJACK!");
-			System.out.println("Would you like to play another round?");
-		}
-		
 	}
+//	public void playAnotherHand () {
+//		
+//	}
+
 }
+
+//	public void blackjack() {
+//		Scanner sc = new Scanner(System.in);
+//		while (playerHand.getHandValue() == 21 ) {
+//			System.out.println("You have a BLACKJACK!");
+//			System.out.println("Would you like to play another round?");
+//			String playAgain = sc.nextLine();
+//			if (playAgain.equalsIgnoreCase("Yes")) {
+//				continue;
+//			}
+//			playerTurn();
+//		}
+//		
