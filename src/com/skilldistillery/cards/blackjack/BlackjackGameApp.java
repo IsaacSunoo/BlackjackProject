@@ -59,11 +59,17 @@ public class BlackjackGameApp {
 			System.out.println(dealerHand.getHandValue());
 			if (dealerHand.getHandValue() < 17) {
 				dealerHand.addCard(deck.dealCard());
-				System.out.println(dealerHand);
+				System.out.println("\n" + dealerHand);
 				System.out.print(dealerHand.getHandValue());
 			}
 			if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21) {
-
+				if (dealerHand.getHandValue() > playerHand.getHandValue()) {
+					System.out.println("\nDealer wins this hand.");
+					return;
+				} else if (playerHand.getHandValue() > dealerHand.getHandValue()) {
+					System.out.println("You WIN this hand!");
+					return;
+				}
 			}
 			if (dealerHand.getHandValue() > 21 && playerHand.getHandValue() <= 21) {
 				System.out.println("\nThe dealer busted... You WIN this hand!");
@@ -94,7 +100,7 @@ public class BlackjackGameApp {
 		Scanner sc = new Scanner(System.in);
 		String playerMove;
 
-		System.out.println("Would you like to play another hand? (Yes/Quit)");
+		System.out.print("Would you like to play another hand? (Yes/Quit) : ");
 		playerMove = sc.nextLine();
 		while (playerMove.equalsIgnoreCase("Yes") || playerMove.equalsIgnoreCase("Quit")) {
 			if (playerMove.equalsIgnoreCase("Yes")) {
