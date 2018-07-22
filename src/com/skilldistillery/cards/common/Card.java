@@ -38,6 +38,9 @@ public class Card {
     return true;
   }
 
+  
+  // add logic to print face values and numbers for number cards
+ 
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
