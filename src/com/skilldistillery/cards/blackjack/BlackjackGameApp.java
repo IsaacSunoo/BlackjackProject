@@ -11,13 +11,44 @@ public class BlackjackGameApp {
 	private Hand dealerHand;
 	String playerMove;
 	String playerChoice;
+	String playerName;
 
 	public static void main(String[] args) {
 		BlackjackGameApp bjga = new BlackjackGameApp();
-		bjga.playerTurn();
-//		bjga.playAnotherHand();
+		bjga.run();
 		System.out.println("\nsimultion over");
 
+	}
+
+	public void run() {
+		introduction();
+		initialHands();
+		blackjack();
+		System.out.println("\n" + playerName + ", would you like to hit or stay?");
+		playerMove = sc.nextLine();
+		if (playerMove.equalsIgnoreCase("Hit")) {
+			while (playerMove.equalsIgnoreCase("Hit")) {
+				playerHit();
+				if (playerHand.getHandValue() > 21) {
+					System.out.println("\nYou have busted! The dealer wins this hand.");
+					return;
+				}
+				if (playerHand.getHandValue() <= 21) {
+					System.out.println("\nWould you like to Hit or Stay?");
+					playerMove = sc.nextLine();
+				}
+			}
+		}
+		if (playerMove.equalsIgnoreCase("Stay")) {
+			dealerHit();
+		}
+		determineWinner();
+	}
+
+	public void introduction() {
+		System.out.print("Welcome to a game of blackjack!\nWhat is your name?\n");
+		playerName = sc.nextLine();
+		System.out.println("Lets play some blackjack " + playerName + "!\n");
 	}
 
 	public void initialHands() {
@@ -28,152 +59,19 @@ public class BlackjackGameApp {
 		playerHand.addCard(deck.dealCard());
 		dealerHand.addCard(deck.dealCard());
 		playerHand.addCard(deck.dealCard());
-		System.out.println("Player's hand:");
+		System.out.println(playerName + "'s hand:");
 		System.out.print(playerHand);
 		System.out.println(playerHand.getHandValue());
 		System.out.println("\nDealer's hand:\n\uD83C\uDCE0");
 		System.out.print(dealerHand);
 		System.out.println(dealerHand.getHandValue());
 		dealerHand.addCard(deck.dealCard());
-
-//		if (playerHand.getHandValue() == 21 ) {
-//			System.out.println("BLACKJACK!");
-//			if(dealerHand.getHandValue() == 21) {
-//				System.out.println("This round is a push...");
-//			}
-	}
-
-	public void playerTurn() {
-		initialHands();
-//		blackjack();
-		if (playerHand.getHandValue() == 21 && dealerHand.getHandValue() == 21) {
-			System.out.println("You and the dealer have a blackjack... This round is a draw");
-			System.exit(0);
-			;
-		} else if (playerHand.getHandValue() == 21) {
-			System.out.println("You have a BLACKJACK!");
-			System.exit(0);
-		}
-
-		System.out.println("\nWould you like to Hit or Stay?");
-		playerMove = sc.nextLine();
-
-		if (playerMove.equalsIgnoreCase("Hit") && playerHand.getHandValue() <= 21) {
-			playerHand.addCard(deck.dealCard());
-			System.out.print("\nPlayer's hand:\n" + playerHand);
-			System.out.print(playerHand.getHandValue());
-			if (playerHand.getHandValue() > 21) {
-				System.out.println("\nYou have busted!");
-				return;
-			}
-			if (playerHand.getHandValue() <= 21) {
-				System.out.println("\nWould you like to Hit or Stay?");
-				playerMove = sc.nextLine();
-
-				if (playerMove.equalsIgnoreCase("Hit") && playerHand.getHandValue() <= 21) {
-					playerHand.addCard(deck.dealCard());
-					System.out.print("\nPlayer's hand:\n" + playerHand);
-					System.out.print(playerHand.getHandValue());
-					if (playerHand.getHandValue() > 21) {
-						System.out.println("\nYou have busted! Dealer takes this hand.");
-						return;
-					}
-					else if (playerHand.getHandValue() <= 21) {
-						System.out.println("\nWould you like to Hit or Stay?");
-						playerMove = sc.nextLine();
-					} 
-				}
-			}
-		}
-					if (playerMove.equalsIgnoreCase("Stay")) {
-						while(dealerHand.getHandValue() < 18) {
-						dealerHand.addCard(deck.dealCard());
-						System.out.print("\nDealer's hand:\n" + dealerHand);
-						System.out.println(dealerHand.getHandValue());
-						}
-						if (dealerHand.getHandValue() >= 17 && playerHand.getHandValue() > dealerHand.getHandValue()
-								&& playerHand.getHandValue() <= 21) {
-							System.out.println("\nYou WIN this hand!");
-						}
-						if (dealerHand.getHandValue() > 21 && playerHand.getHandValue() <= 21) {
-							System.out.println("\nThe dealer busted... You WIN this hand!");
-						}
-						if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-								&& playerHand.getHandValue() == dealerHand.getHandValue()) {
-							System.out.println("This round is a draw...");
-							if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-									&& dealerHand.getHandValue() > playerHand.getHandValue()) {
-								System.out.println("The dealer wins this round.");
-							}
-					}
-				}
-			
-		 if (playerMove.equalsIgnoreCase("Stay") && dealerHand.getHandValue() < 18) {
-			dealerHand.addCard(deck.dealCard());
-			System.out.print("\nDealer's hand: \n" + dealerHand);
-			System.out.println(dealerHand.getHandValue());
-			if (dealerHand.getHandValue() > 21 && playerHand.getHandValue() <= 21) {
-				System.out.println("\nThe dealer busted... You WIN this hand!");
-			}
-			if (dealerHand.getHandValue() >= 17 && playerHand.getHandValue() > dealerHand.getHandValue()
-					&& playerHand.getHandValue() <= 21) {
-				System.out.println("\nYou WIN this hand!");
-			}
-			if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-					&& playerHand.getHandValue() == dealerHand.getHandValue()) {
-				System.out.println("This round is a draw...");
-				if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-						&& dealerHand.getHandValue() > playerHand.getHandValue()) {
-					System.out.println("The dealer wins this round.");
-				}
-			}
-		}
-	}
-
-	public void playerChoice() {
-		System.out.println("\nWould you like to Hit or Stay?");
-		playerMove = sc.nextLine();
-		if (playerMove.equalsIgnoreCase("Stay")) {
-			playerStay();
-		} else if (playerMove.equalsIgnoreCase("Hit")) {
-			playerHit();
-		}
 	}
 
 	public void playerHit() {
-		if (playerHand.getHandValue() <= 21) {
-			playerHand.addCard(deck.dealCard());
-			System.out.print("\nPlayer's hand:\n" + playerHand);
-			System.out.print(playerHand.getHandValue());
-
-		} else if (playerHand.getHandValue() > 21) {
-			System.out.println("\nYou have busted!");
-			return;
-		}
-//			playerChoice();
-	}
-
-	public void playerStay() {
-		while (dealerHand.getHandValue() < 18) {
-			dealerHand.addCard(deck.dealCard());
-			System.out.println("\nDealer's hand: \n" + dealerHand);
-			System.out.print(dealerHand.getHandValue());
-			if (dealerHand.getHandValue() > 21 && playerHand.getHandValue() <= 21) {
-				System.out.println("\nThe dealer busted... You WIN this hand!");
-			}
-			if (dealerHand.getHandValue() >= 17 && playerHand.getHandValue() > dealerHand.getHandValue()
-					&& playerHand.getHandValue() <= 21) {
-				System.out.println("\nYou WIN this hand!");
-			}
-			if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-					&& playerHand.getHandValue() == dealerHand.getHandValue()) {
-				System.out.println("This round is a draw...");
-				if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
-						&& dealerHand.getHandValue() > playerHand.getHandValue()) {
-					System.out.println("The dealer wins this round.");
-				}
-			}
-		}
+		playerHand.addCard(deck.dealCard());
+		System.out.print("\n" + playerName + "'s hand:\n" + playerHand);
+		System.out.print(playerHand.getHandValue());
 	}
 
 	public void blackjack() {
@@ -188,32 +86,34 @@ public class BlackjackGameApp {
 		}
 	}
 
-	public void playAnotherHand() {
-		String playerMove;
-
-		System.out.print("Would you like to play another hand? (Yes/Quit) : ");
-		playerMove = sc.nextLine();
-		while (playerMove.equalsIgnoreCase("Yes") || playerMove.equalsIgnoreCase("Quit")) {
-			if (playerMove.equalsIgnoreCase("Yes")) {
-				playerTurn();
+	public void dealerHit() {
+		if (dealerHand.getHandValue() >= 17) {
+			System.out.print(dealerHand);
+			System.out.println(dealerHand.getHandValue());
+		}
+		while (dealerHand.getHandValue() < 18) {
+			dealerHand.addCard(deck.dealCard());
+			System.out.print("\nDealer draws a card...\nDealer's hand:\n" + dealerHand);
+			System.out.println(dealerHand.getHandValue());
+			if (dealerHand.getHandValue() > 21 && playerHand.getHandValue() <= 21) {
+				System.out.println("\nThe dealer busted... You WIN this hand!");
 			}
-			if (playerMove.equalsIgnoreCase("Quit")) {
-				System.exit(0);
-			}
-			sc.close();
 		}
 	}
-}
 
-//	public void blackjack() {
-//		Scanner sc = new Scanner(System.in);
-//		while (playerHand.getHandValue() == 21 ) {
-//			System.out.println("You have a BLACKJACK!");
-//			System.out.println("Would you like to play another round?");
-//			String playAgain = sc.nextLine();
-//			if (playAgain.equalsIgnoreCase("Yes")) {
-//				continue;
-//			}
-//			playerTurn();
-//		}
-//		
+	public void determineWinner() {
+		if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() > dealerHand.getHandValue()
+				&& playerHand.getHandValue() <= 21) {
+			System.out.println("\nYou WIN this hand!");
+		}
+		if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
+				&& playerHand.getHandValue() == dealerHand.getHandValue()) {
+			System.out.println("This round is a draw...");
+		}
+		if (dealerHand.getHandValue() <= 21 && playerHand.getHandValue() <= 21
+				&& dealerHand.getHandValue() > playerHand.getHandValue()) {
+			System.out.println("The dealer wins this round.");
+		}
+	}
+
+}
