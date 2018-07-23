@@ -41,7 +41,7 @@ public abstract class Hand {
 	public void clearHand() {
 		cards.clear();
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
