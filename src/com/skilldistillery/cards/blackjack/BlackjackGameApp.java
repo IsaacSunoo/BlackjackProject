@@ -16,8 +16,6 @@ public class BlackjackGameApp {
 	public static void main(String[] args) {
 		BlackjackGameApp bjga = new BlackjackGameApp();
 		bjga.run();
-		System.out.println("\nsimultion over");
-
 	}
 
 	public void run() {
